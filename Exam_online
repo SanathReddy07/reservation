@@ -1,0 +1,82 @@
+import java.util.Scanner;
+
+public class OnlineExamSystem {
+    private static Scanner scanner = new Scanner(System.in);
+    private static User currentUser;
+
+    public static void main(String[] args) {
+        initialize();
+        login();
+        while (true) {
+            displayMainMenu();
+            int choice = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (choice) {
+                case 1:
+                    updateProfile();
+                    break;
+                case 2:
+                    selectAnswers();
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    logout();
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void initialize() {
+        // Initialize the system, load data, etc.
+        // For simplicity, we can create a sample user here
+        currentUser = new User("username", "password", "John Doe", "example@example.com");
+    }
+
+    private static void login() {
+        System.out.println("Please login to continue.");
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        if (currentUser.authenticate(username, password)) {
+            System.out.println("Login successful. Welcome, " + currentUser.getName() + "!");
+        } else {
+            System.out.println("Invalid credentials. Please try again.");
+            login();
+        }
+    }
+
+    private static void displayMainMenu() {
+        System.out.println("\nMain Menu:");
+        System.out.println("1. Update Profile and Password");
+        System.out.println("2. Select Answers for MCQs");
+        System.out.println("3. Timer and Auto Submit");
+        System.out.println("4. Logout");
+        System.out.println("Enter your choice:");
+    }
+
+    private static void updateProfile() {
+        System.out.println("\nUpdate Profile:");
+        System.out.println("Current Profile Information:");
+        System.out.println("Name: " + currentUser.getName());
+        System.out.println("Email: " + currentUser.getEmail());
+        System.out.print("Enter new name: ");
+        String newName = scanner.nextLine();
+        System.out.print("Enter new email: ");
+        String newEmail = scanner.nextLine();
+        currentUser.updateProfile(newName, newEmail);
+        System.out.println("Profile updated successfully.");
+    }
+
+    private static void selectAnswers() {
+    }
+
+    private static void logout() {
+        System.out.println("Logging out. Goodbye, " + currentUser.getName() + "!");
+        System.exit(0);
+   
