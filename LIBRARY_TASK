@@ -1,0 +1,125 @@
+import java.util.*;
+class Book {
+    private int id;
+    private String title;
+    private String author;
+    public Book(int id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
+    public String toString() {
+        return "Book [id=" + id + ", title=" + title + ", author=" + author + "]";
+    }
+}
+
+class BookManager {
+    private List<Book> books;
+
+    public BookManager() {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void deleteBook(int bookId) {
+        books.removeIf(book -> book.getId() == bookId);
+    }
+    public List<Book> getAllBooks() {
+        return books;
+    }
+}
+class Member {
+    private int memberId;
+    private String name;
+    private String email;
+    public Member(int memberId, String name, String email) {
+        this.memberId = memberId;
+        this.name = name;
+        this.email = email;
+    }
+    public String toString() {
+        return "Member [memberId=" + memberId + ", name=" + name + ", email=" + email + "]";
+    }
+}
+
+class MemberManager {
+    private Map<Integer, Member> members;
+    public MemberManager() {
+        members = new HashMap<>();
+    }
+    public void addMember(Member member) {
+        members.put(member.getMemberId(), member);
+    }
+    public void deleteMember(int memberId) {
+        members.remove(memberId);
+    }
+    public Member getMember(int memberId) {
+        return members.get(memberId);
+    }
+}
+
+class Library {
+    private BookManager bookManager;
+    private MemberManager memberManager;
+    public Library() {
+        bookManager = new BookManager();
+        memberManager = new MemberManager();
+    }
+
+    public void addBook(Book book) {
+        bookManager.addBook(book);
+    }
+
+    public void deleteBook(int bookId) {
+        bookManager.deleteBook(bookId);
+    }
+
+    public List<Book> getAllBooks() {
+        return bookManager.getAllBooks();
+    }
+
+    public void addMember(Member member) {
+        memberManager.addMember(member);
+    }
+
+    public void deleteMember(int memberId) {
+        memberManager.deleteMember(memberId);
+    }
+
+    public Member getMember(int memberId) {
+        return memberManager.getMember(memberId);
+    }
+}
+
+public class LibrarySystem {
+    public static void main(String[] args) {
+        Library library = new Library();
+        library.addBook(new Book(1, "The Great Gatsby", "F. Scott Fitzgerald"));
+        library.addBook(new Book(2, "To Kill a Mockingbird", "Harper Lee"));
+
+        // Adding members
+        library.addMember(new Member(101, "sanath", "john@example.com"));
+        library.addMember(new Member(102, "suzz", "jane@example.com"));
+
+        // Displaying all books
+        System.out.println("All Books:");
+        List<Book> allBooks = library.getAllBooks();
+        for (Book book : allBooks) {
+            System.out.println(book);
+        }
+
+        // Displaying a specific member
+        System.out.println("\nMember with ID 101:");
+        Member member = library.getMember(101);
+        System.out.println(member);
+        library.deleteBook(2);
+        System.out.println("\nBooks after deleting book with ID 2:");
+        allBooks = library.getAllBooks();
+        for (Book book : allBooks) {
+            System.out.println(book);
+        }
+    }
+}
